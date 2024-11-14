@@ -14,9 +14,9 @@
 namespace {
 	const Size P_SIZE = { 80,88 };
 	const float GROUND = 400.0f;
-	const float JUMP_HEIGHT = 64.0f * 4.0f;//ジャンプの高さ
-	const float GRAVITY = 9.8f / 60.0f;//重力加速度
-	const int MAX_STONE = 20; //小石を投げれる最大数
+	const float JUMP_HEIGHT = 64.0f * 4.0f;		//ジャンプの高さ
+	const float GRAVITY = 9.8f / 60.0f;			//重力加速度
+	const int MAX_STONE = 20;					//小石を投げれる最大数
 	float STONE_NUMBER = 940;
 	//const float INITIALVELOCITY = 18.0f;
 }
@@ -91,8 +91,8 @@ void Player::Update()
 		frameCounter = 0;
 	}
 
-	jumpSpeed += GRAVITY;//速度 += 加速度
-	transform_.position_.y += jumpSpeed; //座標 += 速度
+	jumpSpeed += GRAVITY;						//速度 += 加速度
+	transform_.position_.y += jumpSpeed;		//座標 += 速度
 
 	ControlCollision();
 
@@ -133,8 +133,6 @@ void Player::Update()
 			animFrame = 0;
 			state = S_Cry;
 			scene->StartDead();
-			//SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-			//pSceneManager->ChangeScene(SCENE_ID_GAMEOVER);
 		}
 	}
 
@@ -146,10 +144,7 @@ void Player::Update()
 		{
 			animType = 4;
 			animFrame = 0;
-			//state = S_Cry;
 			scene->StartDead();
-			//SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-			//pSceneManager->ChangeScene(SCENE_ID_GAMEOVER);
 		}
 	}
 
@@ -181,11 +176,6 @@ void Player::Update()
 			animFrame = 0;
 			pSs->DeActivateMe();
 			this->DeActivateMe();
-
-			//state = S_Cry;
-			//scene->StartDead();
-			//SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-			//pSceneManager->ChangeScene(SCENE_ID_GAMEOVER);
 		}
 	}
 
@@ -241,11 +231,6 @@ void Player::Draw()
 
 	int x = (int)transform_.position_.x;
 	int y = (int)transform_.position_.y;
-	/*cam = GetParent()->FindGameObject<Camera>();
-	if (cam != nullptr)
-	{
-		x -= cam->GetValue();
-	}*/
 	DrawRectGraph(x-field->Getscroll(), y, animFrame * P_SIZE.w, P_SIZE.h * 2, 80, 88, hImage, TRUE, ReversX);
 
 	//スピードが戻ったら●を表示
@@ -255,7 +240,7 @@ void Player::Draw()
 	}
 }
 
-//プレイヤーのポジション
+//プレイヤーの位置
 void Player::SetPosition(int x, int y)
 {
 	transform_.position_.x = x;

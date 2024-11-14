@@ -44,7 +44,7 @@ void Field::Reset()
 		Map = nullptr;
 	}
 	CsvReader csv;//データを読むクラスfのインスタンスを作成
-	bool ret = csv.Load("Assets/stage1.csv");
+	bool ret = csv.Load("Assets/stageT2.csv");
 	assert(ret);
 	width = csv.GetWidth(0);
 	height = csv.GetHeight();

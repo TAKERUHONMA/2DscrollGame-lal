@@ -153,8 +153,6 @@ void Player::Update()
 			animType = 4;
 			animFrame = 0;
 			scene->StartDead();
-			//SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-			//pSceneManager->ChangeScene(SCENE_ID_GAMEOVER);
 		}
 	}
 
@@ -168,8 +166,6 @@ void Player::Update()
 			animFrame = 0;
 			//state = S_Cry;
 			scene->StartDead();
-			//SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-			//pSceneManager->ChangeScene(SCENE_ID_GAMEOVER);
 		}
 	}
 
@@ -256,11 +252,6 @@ void Player::Draw()
 
 	int x = (int)transform_.position_.x;
 	int y = (int)transform_.position_.y;
-	/*cam = GetParent()->FindGameObject<Camera>();
-	if (cam != nullptr)
-	{
-		x -= cam->GetValue();
-	}*/
 	DrawRectGraph(x-field->Getscroll(), y, animFrame * P_SIZE.w, P_SIZE.h * 2, 80, 88, hImage, TRUE, ReversX);
 
 	if (p_speed == 0)
@@ -336,6 +327,7 @@ bool Player::MovePlayer()
 		transform_.position_.x -= p_speed;
 		return true;
 	}
+
 	// “ü—Íó‘Ô‚ğæ“¾
 	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 

@@ -3,7 +3,7 @@
 #include "Player.h"
 
 TitleScene::TitleScene(GameObject* parent)
-	:GameObject(parent, "TitleScene")
+	:GameObject(parent, "TitleScene"), count(20)
 {
 	title = LoadGraph("Assets/Title.png");
 	mori = LoadGraph("Assets/mori1.jpg");
@@ -17,6 +17,7 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
+	count -= 1;
 	// “ü—Íó‘Ô‚ðŽæ“¾
 	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 	//Player* pPlayer = GetParent()->FindGameObject<Player>();
@@ -40,9 +41,13 @@ void TitleScene::Update()
 		exit(0);
 	}
 	
+	
 	if (input.Buttons[XINPUT_BUTTON_BACK])
 	{
-		exit(0);
+		if (count <= 0)
+		{
+			exit(0);
+		}
 	}
 }
 

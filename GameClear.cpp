@@ -2,6 +2,7 @@
 #include "Engine/SceneManager.h"
 
 GameClear::GameClear(GameObject* parent)
+	:count(50)
 {
 	clear = LoadGraph("Assets/Clear.png");
 	mori = LoadGraph("Assets/mori1.jpg");
@@ -15,6 +16,7 @@ void GameClear::Initialize()
 
 void GameClear::Update()
 {
+	count -= 1;
 	// “ü—Íó‘Ô‚ðŽæ“¾
 	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 
@@ -38,8 +40,11 @@ void GameClear::Update()
 	
     if (input.Buttons[XINPUT_BUTTON_BACK] == 1)
    {
-		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-		pSceneManager->ChangeScene(SCENE_ID_TITLE);
+		if (count <= 0)
+		{
+			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+			pSceneManager->ChangeScene(SCENE_ID_TITLE);
+		}
    }
 	
 }

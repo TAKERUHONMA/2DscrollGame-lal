@@ -16,6 +16,9 @@ void GameOverScene::Initialize()
 
 void GameOverScene::Update()
 {
+	// “ü—Íó‘Ô‚ðŽæ“¾
+	GetJoypadXInputState(DX_INPUT_PAD1, &input);
+
 	if (CheckHitKey(KEY_INPUT_Q))
 	{
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
@@ -26,6 +29,17 @@ void GameOverScene::Update()
 	{
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 		pSceneManager->ChangeScene(SCENE_ID_TEST);
+	}
+	if (input.Buttons[XINPUT_BUTTON_START] == 1)
+	{
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_TEST);
+	}
+
+	if (input.Buttons[XINPUT_BUTTON_BACK] == 1)
+	{
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_TITLE);
 	}
 }
 

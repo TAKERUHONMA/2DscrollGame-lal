@@ -24,4 +24,5 @@ private:
 	int mori;
 	int s;
 	int e;
+	XINPUT_STATE input;
 };

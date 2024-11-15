@@ -15,6 +15,9 @@ void GameClear::Initialize()
 
 void GameClear::Update()
 {
+	// “ü—Íó‘Ô‚ðŽæ“¾
+	GetJoypadXInputState(DX_INPUT_PAD1, &input);
+
 	if (CheckHitKey(KEY_INPUT_E))
 	{
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
@@ -26,6 +29,19 @@ void GameClear::Update()
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 		pSceneManager->ChangeScene(SCENE_ID_TEST);
 	}
+
+	if (input.Buttons[XINPUT_BUTTON_START] == 1)
+	{
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_TEST);
+	}
+	
+    if (input.Buttons[XINPUT_BUTTON_BACK] == 1)
+   {
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_TITLE);
+   }
+	
 }
 
 void GameClear::Draw()

@@ -14,9 +14,9 @@
 namespace {
 	const Size P_SIZE = { 80,88 };
 	const float GROUND = 400.0f;
-	const float JUMP_HEIGHT = 64.0f * 4.0f;		//ジャンプの高さ
-	const float GRAVITY = 9.8f / 60.0f;			//重力加速度
-	const int MAX_STONE = 20;					//小石を投げれる最大数
+	const float JUMP_HEIGHT = 64.0f * 4.0f;//ジャンプの高さ
+	const float GRAVITY = 9.8f / 60.0f;//重力加速度
+	const int MAX_STONE = 20; //小石を投げれる最大数
 	float STONE_NUMBER = 940;
 	//const float INITIALVELOCITY = 18.0f;
 }
@@ -55,6 +55,8 @@ Player::~Player()
 
 void Player::Update()
 {
+	// 入力状態を取得
+	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 	tmpPosx = transform_.position_.x;
 	tmpPosy = transform_.position_.y;
 
@@ -63,15 +65,6 @@ void Player::Update()
 
 	counter -= 1;
 	//rcount += 1;
-
-	if (state == S_Cry)
-	{
-		if (frameCounter >= 4)
-		{
-			frameCounter = 0;
-		}
-		return;
-	}
 
 	TestScene* scene = dynamic_cast<TestScene*>(GetParent());
 	if (!scene->CanMove())
@@ -91,11 +84,26 @@ void Player::Update()
 		frameCounter = 0;
 	}
 
-	jumpSpeed += GRAVITY;						//速度 += 加速度
-	transform_.position_.y += jumpSpeed;		//座標 += 速度
+	jumpSpeed += GRAVITY;//速度 += 加速度
+	transform_.position_.y += jumpSpeed; //座標 += 速度
 
 	ControlCollision();
 
+	/*if (pField != nullptr)
+	{
+		//(50,64)と(14,64)も見る
+		int pushR = pField->CollisionDown(transform_.position_.x + 80, transform_.position_.y + 80);
+		int pushL = pField->CollisionDown(transform_.position_.x + 14, transform_.position_.y + 80);
+		int push = max(pushR, pushL);//２つの足元のめり込みの大きい方
+		if (push >= 1) {
+			transform_.position_.y -= push - 1;
+			jumpSpeed = 0.0f;
+			onGround = true;
+		}
+		else {
+			onGround = false;
+		}
+	}*/
 	if (transform_.position_.y > Ground) {
 		transform_.position_.y = Ground;
 		jumpSpeed = 0.0f;
@@ -108,7 +116,20 @@ void Player::Update()
 	}
 	else
 	{
-		if (CheckHitKey(KEY_INPUT_SPACE))
+		if (CheckHitKey(KEY_INPUT_O))
+		{
+			if (counter <= 0)
+			{
+				counter = 160;
+				if (counter == 160)
+				{
+					count += 1;
+					STONE_NUMBER -= 47;
+				}
+				st->SetPosition(transform_.position_);
+			}
+		}
+		if (input.Buttons[XINPUT_BUTTON_B] == 1)
 		{
 			if (counter <= 0)
 			{
@@ -131,8 +152,9 @@ void Player::Update()
 		{
 			animType = 4;
 			animFrame = 0;
-			state = S_Cry;
 			scene->StartDead();
+			//SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+			//pSceneManager->ChangeScene(SCENE_ID_GAMEOVER);
 		}
 	}
 
@@ -144,7 +166,10 @@ void Player::Update()
 		{
 			animType = 4;
 			animFrame = 0;
+			//state = S_Cry;
 			scene->StartDead();
+			//SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+			//pSceneManager->ChangeScene(SCENE_ID_GAMEOVER);
 		}
 	}
 
@@ -170,18 +195,12 @@ void Player::Update()
 	std::list<SpeedStone*> pSs = GetParent()->FindGameObjects<SpeedStone>();
 	for (SpeedStone* pSs : pSs)
 	{
-
 		if (pSs->CollideCircle(transform_.position_.x + 32.0f, transform_.position_.y + 32.0f, 20.0f))
 		{
 			animType = 4;
 			animFrame = 0;
 			pSs->DeActivateMe();
 			this->DeActivateMe();
-
-			//state = S_Cry;
-			//scene->StartDead();
-			//SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-			//pSceneManager->ChangeScene(SCENE_ID_GAMEOVER);
 		}
 	}
 
@@ -237,16 +256,20 @@ void Player::Draw()
 
 	int x = (int)transform_.position_.x;
 	int y = (int)transform_.position_.y;
+	/*cam = GetParent()->FindGameObject<Camera>();
+	if (cam != nullptr)
+	{
+		x -= cam->GetValue();
+	}*/
 	DrawRectGraph(x-field->Getscroll(), y, animFrame * P_SIZE.w, P_SIZE.h * 2, 80, 88, hImage, TRUE, ReversX);
 
-	//スピードが戻ったら●を表示
 	if (p_speed == 0)
 	{
 		DrawCircle(50, 50, 10, 255);
 	}
 }
 
-//プレイヤーの位置
+//プレイヤーのポジション
 void Player::SetPosition(int x, int y)
 {
 	transform_.position_.x = x;
@@ -308,6 +331,21 @@ bool Player::MovePlayer()
 		return true;
 	}
 	else if (CheckHitKey(KEY_INPUT_A))//後退
+	{
+		ReversX = true;
+		transform_.position_.x -= p_speed;
+		return true;
+	}
+	// 入力状態を取得
+	GetJoypadXInputState(DX_INPUT_PAD1, &input);
+
+	if (input.ThumbLX >= 10000)
+	{
+		ReversX = false;
+		transform_.position_.x += p_speed;
+		return true;
+	}
+	else if (input.ThumbLX <= -10000)
 	{
 		ReversX = true;
 		transform_.position_.x -= p_speed;

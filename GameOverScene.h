@@ -24,5 +24,6 @@ private:
 	int s;
 	int q;
 	int counter;
+	XINPUT_STATE input;
 };
 

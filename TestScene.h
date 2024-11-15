@@ -41,4 +41,5 @@ public:
 	void StartDead();
 private:
 	void UpdateDead();
+	XINPUT_STATE input;
 };

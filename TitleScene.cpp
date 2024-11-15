@@ -17,6 +17,8 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
+	// “ü—Íó‘Ô‚ðŽæ“¾
+	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 	//Player* pPlayer = GetParent()->FindGameObject<Player>();
 	if (CheckHitKey(KEY_INPUT_SPACE))
 	{
@@ -25,8 +27,20 @@ void TitleScene::Update()
 		//pPlayer->Player();
 		//CheckHitKey
 	}
+	if (input.Buttons[XINPUT_BUTTON_START] == 1)
+	{
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_TEST);
+		//pPlayer->Player();
+		//CheckHitKey
+	}
 
 	if (CheckHitKey(KEY_INPUT_ESCAPE))
+	{
+		exit(0);
+	}
+	
+	if (input.Buttons[XINPUT_BUTTON_BACK])
 	{
 		exit(0);
 	}

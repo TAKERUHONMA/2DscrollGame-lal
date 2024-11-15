@@ -25,7 +25,9 @@ void TestScene::Initialize()
 
 //XV
 void TestScene::Update()
-{
+{// “ü—Íó‘Ô‚ğæ“¾
+	GetJoypadXInputState(DX_INPUT_PAD1, &input);
+
 	switch (state) {
 	case S_Ready:UpdateReady(); break;
 	case S_Play:UpdatePlay(); break;

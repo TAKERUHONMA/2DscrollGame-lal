@@ -24,5 +24,6 @@ private:
 	int mori;
 	int moji1;
 	int moji2;
+	XINPUT_STATE input;
 };
 

@@ -175,17 +175,12 @@ void Player::Update()
 	std::list<SpeedStone*> pSs = GetParent()->FindGameObjects<SpeedStone>();
 	for (SpeedStone* pSs : pSs)
 	{
+
 		if (pSs->CollideCircle(transform_.position_.x + 32.0f, transform_.position_.y + 32.0f, 20.0f))
 		{
 			animType = 4;
 			animFrame = 0;
 			pSs->DeActivateMe();
-			this->DeActivateMe();
-
-			//state = S_Cry;
-			//scene->StartDead();
-			//SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-			//pSceneManager->ChangeScene(SCENE_ID_GAMEOVER);
 		}
 	}
 

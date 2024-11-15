@@ -8,6 +8,7 @@
 namespace
 {
 	static const int SCREEN_WIDTH = 1280;
+	static float t = 0;
 }
 
 
@@ -93,7 +94,9 @@ void SpeedStone::Update()
 	}
 
 	if (isAlive == false)
+	{
 		KillStone();
+	}
 }
 
 void SpeedStone::Draw()
@@ -140,7 +143,6 @@ void SpeedStone::Reset()
 
 void SpeedStone::KillStone()
 {
-	static float t = 0;
 	if (t <= 115)
 	{
 		p->Setp_speed(p->GetMOVE_SPEED2());
@@ -150,5 +152,6 @@ void SpeedStone::KillStone()
 	{
 		p->Setp_speed(p->GetMOVE_SPEED());
 		KillMe();
+		t = 0;
 	}
 }

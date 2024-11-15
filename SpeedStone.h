@@ -25,9 +25,9 @@ public:
 
     void Reset();
 
-    bool IsAlive() { return isAlive; }
-    void DeActivateMe() { isAlive = false; }
-    void ActivateMe() { isAlive = true; }
+    bool IsAlive() { return isAlive; }          //スピードストーンは生きとるんか？
+    void DeActivateMe() { isAlive = false; }    //スピードストーンが死んだ
+    void ActivateMe() { isAlive = true; }       //スピードストーンがまだ生きてる
     void KillStone();
 
 private:
